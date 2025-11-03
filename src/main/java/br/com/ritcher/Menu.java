@@ -20,31 +20,17 @@ public class Menu implements ActionListener {
 		{
 			JMenu menu = new JMenu();
 			menu.setText("File");
-
-			{
-				JMenuItem item = new JMenuItem();
-				item.setText("Listagem");
-				item.addActionListener(this);
-
-				menu.add(item);
-			}
-
-			{
-				JMenuItem item = new JMenuItem();
-				item.setText("Form");
-				item.addActionListener(this);
-
-				menu.add(item);
-			}
-
+			menu.add(new JMenuItemBuilder().text("Listagem").listener(this).build());
+			menu.add(new JMenuItemBuilder().text("Form").listener(this).build());
 			result.add(menu);
 		}
 
 		{
-			JMenu jMenu2 = new JMenu();
-			jMenu2.setText("Edit");
-
-			result.add(jMenu2);
+			JMenu menu = new JMenu();
+			menu.setText("Edit");
+			menu.add(new JMenuItemBuilder().text("Listagem").listener(this).build());
+			menu.add(new JMenuItemBuilder().text("Form").listener(this).build());
+			result.add(menu);
 		}
 		return result;
 
@@ -60,6 +46,27 @@ public class Menu implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		logger.fine("menuSelected " + e.toString());
 		listeners.forEach(l -> l.selected(((JMenuItem) e.getSource()).getText()));
+	}
+	
+	static class JMenuItemBuilder {
+		JMenuItem result;
+		public JMenuItemBuilder() {
+			result = new JMenuItem();
+		}
+
+		public JMenuItemBuilder text(String text) {
+			result.setText(text);
+			return this;
+		}
+
+		public JMenuItemBuilder listener(ActionListener listener) {
+			result.addActionListener(listener);
+			return this;
+		}
+		
+		public JMenuItem build() {
+			return result;
+		}
 	}
 
 }
