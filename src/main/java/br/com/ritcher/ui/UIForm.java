@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package br.com.ritcher;
+package br.com.ritcher.ui;
 
 /**
  *
  * @author thiago
  */
-public class Form extends javax.swing.JPanel {
+public class UIForm extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel1
      */
-    public Form() {
+    public UIForm() {
         initComponents();
     }
 

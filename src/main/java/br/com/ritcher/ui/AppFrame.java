@@ -2,11 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package br.com.ritcher;
+package br.com.ritcher.ui;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
 import javax.swing.JPanel;
+
+import br.com.ritcher.PanelFactory;
 
 /**
  *
@@ -26,6 +29,7 @@ public class AppFrame extends javax.swing.JFrame {
     	this.factory = factory;
     	this.menu = menu;
         initComponents();
+        setSize(800, 600);
     }
 
     /**
@@ -65,7 +69,7 @@ public class AppFrame extends javax.swing.JFrame {
        
         setupMenuSelectionListener();
         
-        pack();
+        //pack();
     }// </editor-fold>                        
 
     private void setupMenuSelectionListener() {
@@ -73,9 +77,12 @@ public class AppFrame extends javax.swing.JFrame {
 			@Override
 			public void selected(String id) {
 				JPanel panel = factory.createPanel(id);
-				content.removeAll();
-				content.add(panel, BorderLayout.CENTER);
-				pack();
+				EventQueue.invokeLater(() -> {
+					content.removeAll();
+					content.add(panel, BorderLayout.CENTER);
+					content.revalidate();
+					content.repaint();
+				});
 			}
 		});
 	}

@@ -1,5 +1,8 @@
 package br.com.ritcher;
 
+import br.com.ritcher.ui.AppFrame;
+import br.com.ritcher.ui.Menu;
+
 public class Client {
 
 	public static void main(String args[]) {

@@ -1,4 +1,4 @@
-package br.com.ritcher;
+package br.com.ritcher.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

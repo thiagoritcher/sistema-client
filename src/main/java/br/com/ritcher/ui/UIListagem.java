@@ -2,18 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package br.com.ritcher;
+package br.com.ritcher.ui;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.stream.Stream;
+
+import javax.swing.AbstractButton;
+import javax.swing.DefaultComboBoxModel;
+
+import br.com.ritcher.model.Form;
+import br.com.ritcher.model.Input;
+import br.com.ritcher.model.Line;
 
 /**
  *
  * @author thiago
  */
-public class Listagem extends javax.swing.JPanel {
+public class UIListagem extends javax.swing.JPanel  implements ActionListener {
 
-    /**
+
+	private Form form;
+
+	/**
      * Creates new form NewJPanel3
      */
-    public Listagem() {
+    public UIListagem(Form form) {
+    	this.form = form;
         initComponents();
     }
 
@@ -31,10 +47,11 @@ public class Listagem extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        opcoes = new javax.swing.JButton();
+        opcoesPanel = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jTextField2 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -61,44 +78,60 @@ public class Listagem extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jButton1, gridBagConstraints);
 
-        jButton2.setText("Opções");
-        jPanel1.add(jButton2, new java.awt.GridBagConstraints());
+        {
+			gridBagConstraints = new java.awt.GridBagConstraints();
+			gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        	
+			opcoes.setText("Opções");
+			jPanel1.add(opcoes, gridBagConstraints);
+			opcoes.addActionListener(this);
 
-        jPanel2.setEnabled(false);
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        }
+        
+        opcoesPanel.setVisible(opcoesVisible);
+
+        opcoesPanel.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        jPanel2.add(jSeparator1, gridBagConstraints);
+        opcoesPanel.add(jSeparator1, gridBagConstraints);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+		jComboBox1.setModel(opcoesModel(form));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 1);
-        jPanel2.add(jComboBox1, gridBagConstraints);
+        opcoesPanel.add(jComboBox1, gridBagConstraints);
+
+        jComboBox2.setModel(operacoesModel(null));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 1);
+        opcoesPanel.add(jComboBox2, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
-        jPanel2.add(jTextField2, gridBagConstraints);
+        opcoesPanel.add(jTextField2, gridBagConstraints);
 
         jButton3.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
-        jPanel2.add(jButton3, gridBagConstraints);
+        opcoesPanel.add(jButton3, gridBagConstraints);
 
         jButton4.setText("+");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 5);
-        jPanel2.add(jButton4, gridBagConstraints);
+        opcoesPanel.add(jButton4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weighty = 1.0;
-        jPanel1.add(jPanel2, gridBagConstraints);
+        jPanel1.add(opcoesPanel, gridBagConstraints);
+       
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -215,16 +248,41 @@ public class Listagem extends javax.swing.JPanel {
         add(jProgressBar1, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
+	FindInput findInput = new FindInput();
+
+	private DefaultComboBoxModel<String> opcoesModel(Form form) {
+		List<Input> inputs = findInput.find(form);
+		DefaultComboBoxModel<String> model = new javax.swing.DefaultComboBoxModel<String>();
+		inputs.stream()
+			.map(i -> i.getLabel())
+			.forEach(l -> model.addElement(l));
+		
+		return model;
+	}
+
+	private DefaultComboBoxModel<String> operacoesModel(Input iput) {
+		//TODO: Implement
+		List<Input> inputs = findInput.find(form);
+
+		DefaultComboBoxModel<String> model = new javax.swing.DefaultComboBoxModel<String>();
+		inputs.stream()
+			.map(i -> i.getLabel())
+			.forEach(l -> model.addElement(l));
+		
+		return model;
+	}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton opcoes;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel opcoesPanel;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -232,4 +290,18 @@ public class Listagem extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    boolean opcoesVisible = false;
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == opcoes) {
+			opcoesVisible = !opcoesVisible;
+			opcoesPanel.setVisible(opcoesVisible);
+			opcoesPanel.getParent().revalidate();
+			opcoesPanel.getParent().repaint();
+			
+		}
+		
+	}
 }
