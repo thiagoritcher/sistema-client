@@ -4,7 +4,7 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 import br.com.ritcher.model.Line;
-import br.com.ritcher.model.input.Date;
+import br.com.ritcher.model.input.DateInput;
 import br.com.ritcher.model.input.SearchItem;
 import br.com.ritcher.model.input.SelectItem;
 import br.com.ritcher.model.input.Switch;
@@ -22,7 +22,7 @@ public class UIFactory {
 		return field;
 	}
 
-	public JComponent create(Date input)  {
+	public JComponent create(DateInput input)  {
 		JTextField field = new JTextField();
 		return field;
 	}

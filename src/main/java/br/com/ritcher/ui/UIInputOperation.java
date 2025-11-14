@@ -4,7 +4,7 @@ import java.util.List;
 
 
 import br.com.ritcher.model.Input;
-import br.com.ritcher.model.input.Date;
+import br.com.ritcher.model.input.DateInput;
 import br.com.ritcher.model.input.SearchItem;
 import br.com.ritcher.model.input.SelectItem;
 import br.com.ritcher.model.input.Switch;
@@ -16,7 +16,7 @@ public class UIInputOperation {
 		return operations(input);
 	}
 
-	public List<String> operations(Date input){
+	public List<String> operations(DateInput input){
 		return List.of();
 	}
 
