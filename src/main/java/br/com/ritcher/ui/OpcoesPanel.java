@@ -19,6 +19,11 @@ import javax.swing.JSeparator;
 
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
+import br.com.ritcher.model.input.DateInput;
+import br.com.ritcher.model.input.IntegerInput;
+import br.com.ritcher.model.input.SelectItem;
+import br.com.ritcher.model.input.Switch;
+import br.com.ritcher.model.input.TextLine;
 
 public class OpcoesPanel  implements ActionListener {
 
@@ -53,12 +58,14 @@ public class OpcoesPanel  implements ActionListener {
 
 	class Line {
 		public JComboBox<String> opcoes;
-		public JComboBox<String> operacoes;
+		public JComboBox<Operation> operacoes;
 		public JFormattedTextField text1;
 		public JFormattedTextField text2;
 		public JButton remove;
 		public JButton add;
 		public JPanel container;
+		public JCheckBox inputSwitch;
+		public JComboBox<Object> selectItem;
 		
 	}
 	
@@ -77,21 +84,49 @@ public class OpcoesPanel  implements ActionListener {
 		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 1);
 		line.container.add(line.opcoes, gridBagConstraints);
 		
-		line.operacoes = new JComboBox<String>();
+		line.operacoes = new JComboBox<Operation>();
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 1);
+
+		line.operacoes.setModel(operacoesModel(inputs.get(0)));
 		line.operacoes.addActionListener(this);
 		line.container.add(line.operacoes, gridBagConstraints);
 
         line.text1 = new javax.swing.JFormattedTextField();
 
-        line.text2 = new javax.swing.JFormattedTextField();
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
         line.container.add(line.text1, gridBagConstraints);
+
+
+        line.text2 = new javax.swing.JFormattedTextField();
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
+        line.container.add(line.text2, gridBagConstraints);
+        line.text2.setVisible(false);
+
+        line.selectItem = new javax.swing.JComboBox<Object>();
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
+        line.container.add(line.selectItem, gridBagConstraints);
+        line.selectItem.setVisible(false);
+        
+        
+        line.inputSwitch = new javax.swing.JCheckBox();
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
+        line.container.add(line.inputSwitch, gridBagConstraints);
+        line.inputSwitch.setVisible(false);
+
         
         line.remove = new javax.swing.JButton();
         line.add = new javax.swing.JButton();
@@ -143,12 +178,11 @@ public class OpcoesPanel  implements ActionListener {
 		return model;
 	}
 	
-	private DefaultComboBoxModel<String> operacoesModel(Input selected) {
+	private DefaultComboBoxModel<Operation> operacoesModel(Input selected) {
 		List<Operation> list = operationList.getOperations(selected);
 
-		DefaultComboBoxModel<String> model = new javax.swing.DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<Operation> model = new javax.swing.DefaultComboBoxModel<Operation>();
 		list.stream()
-			.map(i -> i.getLabel())
 			.forEach(l -> model.addElement(l));
 		
 		return model;
@@ -157,8 +191,9 @@ public class OpcoesPanel  implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() instanceof JButton) {
-			if(e.getSource() == opcoesButton) {
+		Object src = e.getSource();
+		if(src instanceof JButton) {
+			if(opcoesButton == src) {
 				switchOpcoesPanel();
 				return;
 			}
@@ -166,22 +201,68 @@ public class OpcoesPanel  implements ActionListener {
 		}
 	
 		
-		if(e.getSource() instanceof JComboBox) {
-			updateOperacoesModel(e.getSource());
+		if(src instanceof JComboBox) {
+			if(updateOperacoesModel(src)) {
+				return;
+			}
+			if(updateOperacao(src)) {
+				return;
+			}
 		}
 	}
 
-	private void updateOperacoesModel(Object source) {
+	private boolean updateOperacao(Object source) {
+		for (Line line : lines) {
+			if(line.operacoes == source) {
+				Input selected = inputs.get(line.opcoes.getSelectedIndex());
+				Operation oper = (Operation) line.operacoes.getSelectedItem();
+
+				line.text1.setVisible(true);
+				line.text2.setVisible(false);
+				line.inputSwitch.setVisible(false);
+				line.selectItem.setVisible(false);
+
+				if(selected instanceof DateInput) {
+					if(oper.getInputCount() > 1) {
+						line.text2.setVisible(true);
+					}
+				}
+				else if(selected instanceof IntegerInput) {
+					if(oper.getInputCount() > 1) {
+						line.text2.setVisible(true);
+					}
+				}
+				else if(selected instanceof Switch) {
+					line.text1.setVisible(false);
+					line.inputSwitch.setVisible(true);
+				}
+				else if(selected instanceof SelectItem) {
+					line.text1.setVisible(false);
+					line.selectItem.setVisible(true);
+				}
+				line.operacoes.setModel(operacoesModel(selected));
+				line.operacoes.getParent().invalidate();
+				line.operacoes.getParent().repaint();
+			
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean updateOperacoesModel(Object source) {
 		for (Line line : lines) {
 			if(line.opcoes == source) {
 				Input selected = inputs.get(line.opcoes.getSelectedIndex());
 				line.operacoes.setModel(operacoesModel(selected));
 				line.operacoes.getParent().invalidate();
 				line.operacoes.getParent().repaint();
-				
-				return;
+				updateOperacao(line.operacoes);
+			
+				return true;
 			}
 		}
+		return false;
 	}
 
 	private void addOrRemoveLine(ActionEvent e) {

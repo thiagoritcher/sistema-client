@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
@@ -81,9 +82,6 @@ public class UIListagem extends javax.swing.JPanel {
 			
 			opcoes.addActionListener(opcoesPanel);
         }
-        
-
-
 
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -95,7 +93,15 @@ public class UIListagem extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(sampleModel());
+        jScrollPane1.setViewportView(jTable1);
+
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        add(jProgressBar1, java.awt.BorderLayout.PAGE_END);
+    }// </editor-fold>//GEN-END:initComponents
+
+	private DefaultTableModel sampleModel() {
+		return new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -201,12 +207,8 @@ public class UIListagem extends javax.swing.JPanel {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
-        add(jProgressBar1, java.awt.BorderLayout.PAGE_END);
-    }// </editor-fold>//GEN-END:initComponents
+        );
+	}
 
 	FindInput findInput = new FindInput();
 

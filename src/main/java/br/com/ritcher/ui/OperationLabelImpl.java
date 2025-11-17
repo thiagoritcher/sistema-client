@@ -21,6 +21,10 @@ public class OperationLabelImpl implements OperationLabel {
 			return "Vazio";
 		case CONTAINS:
 			return "Contem";
+		case NOTEQUALS:
+			return "Diferente";
+		case NOTEMPTY:
+			return "Não Vazio";
 		default:
 			throw new IllegalArgumentException("Unknow " +  operation.toString());
 		}

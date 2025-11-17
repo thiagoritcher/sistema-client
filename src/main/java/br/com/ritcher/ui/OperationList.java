@@ -7,18 +7,20 @@ import br.com.ritcher.model.input.DateInput;
 import br.com.ritcher.model.input.IntegerInput;
 import br.com.ritcher.model.input.SearchItem;
 import br.com.ritcher.model.input.SelectItem;
+import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
 
 public class OperationList {
 
 	private static final List<Operation> numeric = List.of(Operation.SMALLER, Operation.BIGGER, Operation.BETWEN,
-			Operation.EQUALS);
+			Operation.EQUALS, Operation.ISEMPTY, Operation.NOTEMPTY);
 
-	private static final List<Operation> item = List.of(Operation.SMALLER, Operation.BIGGER, Operation.BETWEN,
-			Operation.EQUALS);
+	private static final List<Operation> item = List.of(Operation.EQUALS, Operation.NOTEQUALS, Operation.ISEMPTY, Operation.NOTEMPTY);
 
 	private static final List<Operation> text = List.of(Operation.CONTAINS, Operation.STARTWITH, Operation.ENDWITH,
-			Operation.EQUALS);
+			Operation.EQUALS, Operation.ISEMPTY, Operation.NOTEMPTY);
+
+	private static final List<Operation> switchin = List.of(Operation.EQUALS);
 
 	List<Operation> getOperations(Input i){
 		if(i instanceof TextLine) {
@@ -29,6 +31,9 @@ public class OperationList {
 		}
 		else if(i instanceof SearchItem || i instanceof SelectItem) {
 			return item;
+		}
+		else if(i instanceof Switch) {
+			return switchin;
 		}
 		throw new IllegalArgumentException("Undefined input " + i);
 	}

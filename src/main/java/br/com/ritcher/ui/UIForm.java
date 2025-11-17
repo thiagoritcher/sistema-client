@@ -4,16 +4,35 @@
  */
 package br.com.ritcher.ui;
 
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import br.com.ritcher.model.Form;
+import br.com.ritcher.model.FormItem;
+import br.com.ritcher.model.Input;
+import br.com.ritcher.model.Line;
+import br.com.ritcher.model.input.TextLine;
+
 /**
  *
  * @author thiago
  */
 public class UIForm extends javax.swing.JPanel {
 
-    /**
+    private Form form;
+	/**
      * Creates new form NewJPanel1
+     * @param form 
      */
-    public UIForm() {
+    public UIForm(Form form) {
+    	this.form = form;
         initComponents();
     }
 
@@ -25,80 +44,77 @@ public class UIForm extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-
         setLayout(new java.awt.GridBagLayout());
+        
+        List<FormItem> itens = form.getFormItems();
+        Integer y = -1;
 
-        jLabel1.setText("Label");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jLabel1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jTextField1, gridBagConstraints);
+        for (FormItem formItem : itens) {
+        	y++;
+			if(formItem instanceof Line) {
+				this.createLine((Line) formItem, this, y);
+			}
+			
+			if(formItem instanceof Input) {
+				this.createInput((Input) formItem, this, y);
+			}
+		}
 
-        jLabel3.setText("Label");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jLabel3, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jTextField2, gridBagConstraints);
+    	GridBagConstraints gridBagConstraints;
+		JLabel label = new JLabel();
+		label.setText("");
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridy = y + 1;
+		gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.fill = GridBagConstraints.REMAINDER;
+		
 
-        jLabel4.setText("Label");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jLabel4, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jTextField3, gridBagConstraints);
+		add(label, gridBagConstraints);
 
-        jLabel5.setText("Test");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jLabel5, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jTextField4, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.weighty = 1.0;
-        add(jLabel2, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void createInput(Input input, Container container, Integer y) {
+    	GridBagConstraints gridBagConstraints;
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    // End of variables declaration//GEN-END:variables
+		JLabel label = new JLabel();
+		label.setText(input.getLabel());
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+		gridBagConstraints.gridy = y;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		container.add(label, gridBagConstraints);
+
+		JTextField textField = new JTextField();
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.gridy = y;
+		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+		container.add(textField, gridBagConstraints);
+	}
+
+
+	private void createLine(Line line, Container container, Integer y) {
+
+    	JPanel linePanel = new JPanel();
+    	linePanel.setLayout(new GridBagLayout());
+    	
+        List<Input> itens = line.getInputs();
+        for (Input formItem : itens) {
+			if(formItem instanceof Input) {
+				this.createInput(formItem, linePanel, 0);
+			}
+		}
+
+    	GridBagConstraints gridBagConstraints;
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.gridy = y;
+		gridBagConstraints.gridwidth = 2;
+		gridBagConstraints.weightx = 1.0;
+
+        
+        container.add(linePanel, gridBagConstraints);
+	}
+
 }
