@@ -39,12 +39,14 @@ import br.com.ritcher.model.input.TextLine;
 public class UIForm extends javax.swing.JPanel {
 
     private Form form;
+	private SearchProvider provider;
 	/**
      * Creates new form NewJPanel1
      * @param form 
      */
-    public UIForm(Form form) {
+    public UIForm(Form form, SearchProvider provider) {
     	this.form = form;
+		this.provider = provider;
         initComponents();
     }
 
@@ -153,7 +155,7 @@ public class UIForm extends javax.swing.JPanel {
 			return comp;
 		}
 		if(input instanceof SearchItem) {
-			JComboBox<String> comp = new JComboBox<String>();
+			SearchInput comp = new SearchInput((SearchItem) input, provider); 
 			return comp;
 		}
 		if(input instanceof Switch) {

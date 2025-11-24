@@ -1,4 +1,4 @@
-package br.com.ritcher.ui;
+package br.com.ritcher.ui.opcoes;
 
 public enum Operation {
 	EQUALS(1, ol()), NOTEQUALS(1, ol()), CONTAINS(1, ol()), ENDWITH(1, ol()), STARTWITH(1, ol()), BETWEN(2, ol()), BIGGER(1, ol()),

@@ -9,6 +9,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JPanel;
 
+import br.com.ritcher.Content;
 import br.com.ritcher.PanelFactory;
 
 /**
@@ -19,14 +20,14 @@ public class AppFrame extends javax.swing.JFrame {
     
     private static final long serialVersionUID = 1L;
 	private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AppFrame.class.getName());
-	private Menu menu;
-	private PanelFactory factory;
+	private final Menu menu;
+	private final Content content;
 
     /**
      * Creates new form AppFrame
      */
-    public AppFrame(Menu menu, PanelFactory factory) {
-    	this.factory = factory;
+    public AppFrame(Content content, Menu menu) {
+    	this.content = content;
     	this.menu = menu;
         initComponents();
         setSize(800, 600);
@@ -61,39 +62,17 @@ public class AppFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
 
-        content.setLayout(new java.awt.BorderLayout());
         getContentPane().add(content, java.awt.BorderLayout.CENTER);
         
         menu.create().stream().forEach(m -> menubar.add(m));
         setJMenuBar(menubar);
        
-        setupMenuSelectionListener();
-        
         //pack();
     }// </editor-fold>                        
 
-    private void setupMenuSelectionListener() {
-    	menu.addMenuListener(new MenuSelectionListener() {
-			@Override
-			public void selected(String id) {
-				JPanel panel = factory.createPanel(id);
-				EventQueue.invokeLater(() -> {
-					content.removeAll();
-					content.add(panel, BorderLayout.CENTER);
-					content.revalidate();
-					content.repaint();
-				});
-			}
-		});
-	}
-
-	/**
-     * @param args the command line arguments
-     */
-   
+  
 
     // Variables declaration - do not modify                     
-    public final javax.swing.JPanel content = new javax.swing.JPanel();
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenuBar menubar;
     // End of variables declaration                   

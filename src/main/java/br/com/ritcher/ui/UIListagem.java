@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
 import br.com.ritcher.model.Line;
+import br.com.ritcher.ui.opcoes.OpcoesPanel;
+import br.com.ritcher.ui.opcoes.OperationList;
 
 /**
  *
@@ -26,11 +28,14 @@ public class UIListagem extends javax.swing.JPanel {
 
 	private Form form;
 
+	private SearchProvider provider;
+
 	/**
      * Creates new form NewJPanel3
      */
-    public UIListagem(Form form) {
+    public UIListagem(Form form, SearchProvider provider) {
     	this.form = form;
+		this.provider = provider;
         initComponents();
     }
 
@@ -72,7 +77,7 @@ public class UIListagem extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jButton1, gridBagConstraints);
 
-        OpcoesPanel opcoesPanel = new OpcoesPanel(form, opcoes);
+        OpcoesPanel opcoesPanel = new OpcoesPanel(form, opcoes, provider);
         {
 			gridBagConstraints = new java.awt.GridBagConstraints();
 			gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);

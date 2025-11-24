@@ -1,4 +1,4 @@
-package br.com.ritcher.ui;
+package br.com.ritcher.ui.opcoes;
 
 import java.util.List;
 

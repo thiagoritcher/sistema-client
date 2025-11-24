@@ -10,9 +10,23 @@ import javax.swing.JMenuItem;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import br.com.ritcher.Content;
+
 public class Menu implements ActionListener {
 
 	private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AppFrame.class.getName());
+	private Content content;
+
+	public Menu(Content content) {
+		this.content = content;
+
+    	addMenuListener(new MenuSelectionListener() {
+			@Override
+			public void selected(String id) {
+				content.add(id);
+			}
+		});
+	}
 
 	public List<JMenu> create() {
 		List<JMenu> result = new ArrayList<JMenu>();
@@ -68,5 +82,4 @@ public class Menu implements ActionListener {
 			return result;
 		}
 	}
-
 }

@@ -23,17 +23,25 @@ import br.com.ritcher.model.input.SearchItem;
 import br.com.ritcher.model.input.SelectItem;
 import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
+import br.com.ritcher.ui.SearchProvider;
 import br.com.ritcher.ui.UIForm;
 import br.com.ritcher.ui.UIListagem;
 
 public class PanelFactory {
 
+	private SearchProvider provider;
+
+	public PanelFactory(SearchProvider provider) {
+		this.provider = provider;
+
+	}
+	
 	public JPanel createPanel(String id) {
 		if("Listagem".equals(id))
-			return new UIListagem(createForm(id));
+			return new UIListagem(createForm(id), provider);
 
 		if("Form".equals(id))
-			return new UIForm(createForm(id));
+			return new UIForm(createForm(id), provider);
 		
 		return new JPanel();
 	}

@@ -1,4 +1,4 @@
-package br.com.ritcher.ui;
+package br.com.ritcher.ui.opcoes;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -21,9 +21,13 @@ import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
 import br.com.ritcher.model.input.DateInput;
 import br.com.ritcher.model.input.IntegerInput;
+import br.com.ritcher.model.input.SearchItem;
 import br.com.ritcher.model.input.SelectItem;
 import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
+import br.com.ritcher.ui.FindInput;
+import br.com.ritcher.ui.SearchInput;
+import br.com.ritcher.ui.SearchProvider;
 
 public class OpcoesPanel  implements ActionListener {
 
@@ -36,12 +40,14 @@ public class OpcoesPanel  implements ActionListener {
 	
 	private final List<Line> lines = new ArrayList<OpcoesPanel.Line>();
 	private final List<Input> inputs;
+	private SearchProvider provider;
 
 
-	public OpcoesPanel(Form form, JButton opcoes) {
+	public OpcoesPanel(Form form, JButton opcoes, SearchProvider provider) {
 		super();
 		this.opcoesButton = opcoes;
 		this.form = form;
+		this.provider = provider;
 		inputs = findInput.find(form);
 
         opcoesPanel = new javax.swing.JPanel();
@@ -66,6 +72,7 @@ public class OpcoesPanel  implements ActionListener {
 		public JPanel container;
 		public JCheckBox inputSwitch;
 		public JComboBox<Object> selectItem;
+		public SearchInput searchItem;
 		
 	}
 	
@@ -118,6 +125,13 @@ public class OpcoesPanel  implements ActionListener {
         line.container.add(line.selectItem, gridBagConstraints);
         line.selectItem.setVisible(false);
         
+        line.searchItem = new SearchInput(null, provider);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
+        line.container.add(line.searchItem, gridBagConstraints);
+        line.searchItem.setVisible(false);
         
         line.inputSwitch = new javax.swing.JCheckBox();
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -145,7 +159,7 @@ public class OpcoesPanel  implements ActionListener {
 
         
         opcoesPanel.add(line.container);
-        updateOperacoesModel(line.opcoes);
+        updateOpcoes(line.opcoes);
 
         
         if(opcoesPanel.getParent() != null) {
@@ -202,7 +216,7 @@ public class OpcoesPanel  implements ActionListener {
 	
 		
 		if(src instanceof JComboBox) {
-			if(updateOperacoesModel(src)) {
+			if(updateOpcoes(src)) {
 				return;
 			}
 			if(updateOperacao(src)) {
@@ -221,6 +235,7 @@ public class OpcoesPanel  implements ActionListener {
 				line.text2.setVisible(false);
 				line.inputSwitch.setVisible(false);
 				line.selectItem.setVisible(false);
+				line.searchItem.setVisible(false);
 
 				if(selected instanceof DateInput) {
 					if(oper.getInputCount() > 1) {
@@ -240,7 +255,11 @@ public class OpcoesPanel  implements ActionListener {
 					line.text1.setVisible(false);
 					line.selectItem.setVisible(true);
 				}
-				line.operacoes.setModel(operacoesModel(selected));
+				else if(selected instanceof SearchItem) {
+					line.text1.setVisible(false);
+					line.searchItem.setVisible(true);
+				}
+				//line.operacoes.setModel(operacoesModel(selected));
 				line.operacoes.getParent().invalidate();
 				line.operacoes.getParent().repaint();
 			
@@ -250,7 +269,7 @@ public class OpcoesPanel  implements ActionListener {
 		return false;
 	}
 
-	private boolean updateOperacoesModel(Object source) {
+	private boolean updateOpcoes(Object source) {
 		for (Line line : lines) {
 			if(line.opcoes == source) {
 				Input selected = inputs.get(line.opcoes.getSelectedIndex());

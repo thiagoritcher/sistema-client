@@ -21,9 +21,11 @@ public class Client {
 		} catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
 			ex.printStackTrace();
 		}
-		
-		
+
+		SearchProviderImpl impl = new SearchProviderImpl();
+		Content content = new Content(new PanelFactory(impl));
+
 		java.awt.EventQueue.invokeLater(() -> 
-			new AppFrame(new Menu(), new PanelFactory()).setVisible(true));
+			new AppFrame(content, new Menu(content)).setVisible(true));
 	}
 }

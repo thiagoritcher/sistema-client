@@ -1,4 +1,4 @@
-package br.com.ritcher.ui;
+package br.com.ritcher.ui.opcoes;
 
 public interface OperationLabel {
 
