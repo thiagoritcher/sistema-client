@@ -4,20 +4,32 @@
  */
 package br.com.ritcher.ui;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import br.com.ritcher.impl.model.SearchItemImpl;
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.FormItem;
 import br.com.ritcher.model.Input;
 import br.com.ritcher.model.Line;
+import br.com.ritcher.model.input.DateInput;
+import br.com.ritcher.model.input.IntegerInput;
+import br.com.ritcher.model.input.SearchItem;
+import br.com.ritcher.model.input.SelectItem;
+import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
 
 /**
@@ -47,16 +59,23 @@ public class UIForm extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
         
         List<FormItem> itens = form.getFormItems();
-        Integer y = -1;
+        Integer y = -2;
 
+        Integer max = 0; 
         for (FormItem formItem : itens) {
-        	y++;
 			if(formItem instanceof Line) {
-				this.createLine((Line) formItem, this, y);
+				max = Integer.max(max, this.countInputs((Line) formItem));
+			}
+		}
+        
+        for (FormItem formItem : itens) {
+        	y += 2;
+			if(formItem instanceof Line) {
+				this.createLine((Line) formItem, this, y, max);
 			}
 			
 			if(formItem instanceof Input) {
-				this.createInput((Input) formItem, this, y);
+				this.createInput((Input) formItem, this, 0,  y, max);
 			}
 		}
 
@@ -64,7 +83,7 @@ public class UIForm extends javax.swing.JPanel {
 		JLabel label = new JLabel();
 		label.setText("");
 		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridy = y + 1;
+		gridBagConstraints.gridy = y + 3;
 		gridBagConstraints.weighty = 1.0;
 		gridBagConstraints.fill = GridBagConstraints.REMAINDER;
 		
@@ -73,48 +92,91 @@ public class UIForm extends javax.swing.JPanel {
 
     }// </editor-fold>//GEN-END:initComponents
 
-    private void createInput(Input input, Container container, Integer y) {
+    private int countInputs(Line formItem) {
+    	return formItem.getInputs().size();
+	}
+
+	private void createInput(Input input, Container container,  Integer x, Integer y, Integer width) {
     	GridBagConstraints gridBagConstraints;
+    	
+    	Integer inputW = width;
+    	Integer labelW = width;
+    	
+    	Integer inputY = y + 1;
+    	Integer labelY = y;
 
-		JLabel label = new JLabel();
-		label.setText(input.getLabel());
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-		gridBagConstraints.gridy = y;
-		gridBagConstraints.anchor = GridBagConstraints.EAST;
-		container.add(label, gridBagConstraints);
-
-		JTextField textField = new JTextField();
+    	Integer inputX = x;
+    	Integer labelX = x;
+   
+    	
+		Component textField = createComponent(input);
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
 		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.gridy = y;
+		gridBagConstraints.gridy = inputY;
+		gridBagConstraints.gridx = inputX;
+		gridBagConstraints.gridwidth = inputW;
 		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
 		container.add(textField, gridBagConstraints);
+    	
+    	if(!(input instanceof Switch)) {
+			JLabel label = new JLabel();
+			label.setText(input.getLabel());
+			gridBagConstraints = new java.awt.GridBagConstraints();
+			gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+			gridBagConstraints.gridy = labelY;
+			gridBagConstraints.gridx = labelX;
+			gridBagConstraints.gridwidth = labelW;
+			
+			gridBagConstraints.anchor = GridBagConstraints.WEST;
+
+			container.add(label, gridBagConstraints);
+			label.setLabelFor(textField);
+    	}
 	}
 
 
-	private void createLine(Line line, Container container, Integer y) {
+	private Component createComponent(Input input) {
+		if(input instanceof TextLine) {
+			return new JTextField();
+		}
+		if(input instanceof IntegerInput) {
+			JFormattedTextField comp = new JFormattedTextField(NumberFormat.getIntegerInstance());
+			return comp;
+		}
+		if(input instanceof DateInput) {
+			JFormattedTextField comp = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
+			return comp;
+		}
+		if(input instanceof SelectItem) {
+			JComboBox<String> comp = new JComboBox<String>();
+			return comp;
+		}
+		if(input instanceof SearchItem) {
+			JComboBox<String> comp = new JComboBox<String>();
+			return comp;
+		}
+		if(input instanceof Switch) {
+			JCheckBox comp = new JCheckBox();
+			comp.setText(input.getLabel());
+			return comp;
+		}
+		throw new IllegalArgumentException("Undefined input type" + input);
+	}
 
-    	JPanel linePanel = new JPanel();
-    	linePanel.setLayout(new GridBagLayout());
-    	
+	private void createLine(Line line, Container container, Integer y,  Integer width) {
         List<Input> itens = line.getInputs();
+        int itemW = width / line.getInputs().size();
+        int lastW = itemW + (width - line.getInputs().size() * itemW);
+        int x = 0;
+        Input lastItem = itens.get(0);
         for (Input formItem : itens) {
 			if(formItem instanceof Input) {
-				this.createInput(formItem, linePanel, 0);
+				int w = lastItem == formItem ? lastW : itemW;
+				this.createInput(formItem, this,x, y, w);
+				x += w;
 			}
 		}
-
-    	GridBagConstraints gridBagConstraints;
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.gridy = y;
-		gridBagConstraints.gridwidth = 2;
-		gridBagConstraints.weightx = 1.0;
-
-        
-        container.add(linePanel, gridBagConstraints);
 	}
 
 }

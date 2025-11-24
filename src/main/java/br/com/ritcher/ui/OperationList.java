@@ -20,7 +20,7 @@ public class OperationList {
 	private static final List<Operation> text = List.of(Operation.CONTAINS, Operation.STARTWITH, Operation.ENDWITH,
 			Operation.EQUALS, Operation.ISEMPTY, Operation.NOTEMPTY);
 
-	private static final List<Operation> switchin = List.of(Operation.EQUALS);
+	private static final List<Operation> switchin = List.of(Operation.YES);
 
 	List<Operation> getOperations(Input i){
 		if(i instanceof TextLine) {

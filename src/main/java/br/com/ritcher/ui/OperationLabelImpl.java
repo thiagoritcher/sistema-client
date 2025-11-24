@@ -25,6 +25,8 @@ public class OperationLabelImpl implements OperationLabel {
 			return "Diferente";
 		case NOTEMPTY:
 			return "Não Vazio";
+		case YES:
+			return "Sim";
 		default:
 			throw new IllegalArgumentException("Unknow " +  operation.toString());
 		}
