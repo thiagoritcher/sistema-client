@@ -1,6 +1,7 @@
 package br.com.ritcher;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JPanel;
@@ -16,9 +17,9 @@ public class ContentImpl extends JPanel implements Content {
 		this.setLayout(cardLayout);
 	}
 
-	public void push(JPanel panel) {
+	public void push(UI panel) {
 		EventQueue.invokeLater(() -> {
-			add(panel, 0);
+			add((Component) panel, 0);
 			cardLayout.first(this);
 			revalidate();
 			repaint();

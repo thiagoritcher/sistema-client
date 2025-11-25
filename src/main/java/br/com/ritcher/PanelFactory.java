@@ -30,7 +30,7 @@ import br.com.ritcher.ui.UIListagem;
 
 public class PanelFactory {
 
-	public JPanel createPanel(String id, PanelType type, SearchProvider provider) {
+	public UI createPanel(String id, PanelType type, SearchProvider provider) {
 		if(type == PanelType.FORM) {
 			return new UIForm(usuario(id), provider);
 		}
@@ -42,7 +42,7 @@ public class PanelFactory {
 		}
 	}
 
-	public JPanel createSearch(String id, SearchProviderImpl searchProviderImpl,
+	public UI createSearch(String id, SearchProviderImpl searchProviderImpl,
 			Optional<SearchSelectionRequest> selectionRequest) {
 		return new UIListagem(usuario(id), searchProviderImpl, selectionRequest);
 	}

@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.ritcher.UI;
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
 import br.com.ritcher.ui.opcoes.OpcoesPanel;
@@ -24,7 +25,7 @@ import br.com.ritcher.ui.opcoes.OperationList;
  *
  * @author thiago
  */
-public class UIListagem extends javax.swing.JPanel implements ActionListener {
+public class UIListagem extends javax.swing.JPanel implements ActionListener, UI {
 
 
 	private Form form;

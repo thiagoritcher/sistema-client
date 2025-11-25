@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import br.com.ritcher.UI;
 import br.com.ritcher.impl.model.SearchItemImpl;
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.FormItem;
@@ -36,7 +37,7 @@ import br.com.ritcher.model.input.TextLine;
  *
  * @author thiago
  */
-public class UIForm extends javax.swing.JPanel {
+public class UIForm extends javax.swing.JPanel implements UI{
 
     private Form form;
 	private SearchProvider provider;
