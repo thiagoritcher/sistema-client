@@ -22,10 +22,13 @@ public class Client {
 			ex.printStackTrace();
 		}
 
-		SearchProviderImpl impl = new SearchProviderImpl();
-		Content content = new Content(new PanelFactory(impl));
+		PanelFactory panelFactory = new PanelFactory();
+		Content content = new ContentImpl();
+
+		SearchProviderImpl impl = new SearchProviderImpl(panelFactory, content);
+
 
 		java.awt.EventQueue.invokeLater(() -> 
-			new AppFrame(content, new Menu(content)).setVisible(true));
+			new AppFrame(content, new Menu(content, panelFactory, impl)).setVisible(true));
 	}
 }

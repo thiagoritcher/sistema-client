@@ -9,6 +9,4 @@ public interface SearchProvider {
 	void startSearch(SearchItem input, ActionListener listener);
 
 	void startEdit(SearchItem input, SearchSelection selection, SearchInput searchInput);
-
-	SearchSelection lastSelection();
 }

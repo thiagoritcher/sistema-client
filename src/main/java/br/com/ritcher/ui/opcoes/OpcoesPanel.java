@@ -258,6 +258,7 @@ public class OpcoesPanel  implements ActionListener {
 				else if(selected instanceof SearchItem) {
 					line.text1.setVisible(false);
 					line.searchItem.setVisible(true);
+					line.searchItem.setInput((SearchItem) selected);
 				}
 				//line.operacoes.setModel(operacoesModel(selected));
 				line.operacoes.getParent().invalidate();

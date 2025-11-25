@@ -4,13 +4,9 @@
  */
 package br.com.ritcher.ui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JPanel;
+import java.awt.Component;
 
 import br.com.ritcher.Content;
-import br.com.ritcher.PanelFactory;
 
 /**
  *
@@ -62,7 +58,7 @@ public class AppFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
 
-        getContentPane().add(content, java.awt.BorderLayout.CENTER);
+        getContentPane().add((Component) content, java.awt.BorderLayout.CENTER);
         
         menu.create().stream().forEach(m -> menubar.add(m));
         setJMenuBar(menubar);

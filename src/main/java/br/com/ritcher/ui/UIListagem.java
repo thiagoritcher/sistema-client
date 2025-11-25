@@ -6,16 +6,17 @@ package br.com.ritcher.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Optional;
 
-import javax.swing.AbstractButton;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
-import br.com.ritcher.model.Line;
 import br.com.ritcher.ui.opcoes.OpcoesPanel;
 import br.com.ritcher.ui.opcoes.OperationList;
 
@@ -23,19 +24,22 @@ import br.com.ritcher.ui.opcoes.OperationList;
  *
  * @author thiago
  */
-public class UIListagem extends javax.swing.JPanel {
+public class UIListagem extends javax.swing.JPanel implements ActionListener {
 
 
 	private Form form;
 
 	private SearchProvider provider;
 
+	private Optional<SearchSelectionRequest> selectionRequest;
+
 	/**
      * Creates new form NewJPanel3
      */
-    public UIListagem(Form form, SearchProvider provider) {
+    public UIListagem(Form form, SearchProvider provider, Optional<SearchSelectionRequest> selectionRequest) {
     	this.form = form;
 		this.provider = provider;
+		this.selectionRequest = selectionRequest;
         initComponents();
     }
 
@@ -53,7 +57,6 @@ public class UIListagem extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        opcoes = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jProgressBar1 = new javax.swing.JProgressBar();
@@ -77,6 +80,7 @@ public class UIListagem extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jButton1, gridBagConstraints);
 
+		opcoes = new javax.swing.JButton();
         OpcoesPanel opcoesPanel = new OpcoesPanel(form, opcoes, provider);
         {
 			gridBagConstraints = new java.awt.GridBagConstraints();
@@ -88,6 +92,19 @@ public class UIListagem extends javax.swing.JPanel {
 			opcoes.addActionListener(opcoesPanel);
         }
 
+        if(selectionRequest.isPresent()) {
+        	cancelButton = new JButton();
+
+			gridBagConstraints = new java.awt.GridBagConstraints();
+			gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        	
+			cancelButton.setText("Cancel");
+			jPanel1.add(cancelButton, gridBagConstraints);
+			
+			cancelButton.addActionListener(this);        
+		}
+        
+
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
@@ -96,123 +113,60 @@ public class UIListagem extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(opcoesPanel.getOpcoesPanel(), gridBagConstraints);
 
+
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
-        jTable1.setModel(sampleModel());
+        dataModel = sampleModel();
+
+		jTable1.setModel(dataModel);
         jScrollPane1.setViewportView(jTable1);
+        
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(selectionRequest.isPresent()) {
+					SearchSelectionRequest request = selectionRequest.get();
+					
+					Object[] data = new Object[dataModel.getColumnCount()];
+					Object[] names = new Object[dataModel.getColumnCount()];
+
+				
+					int row = e.getFirstIndex();
+					for (int i = 0; i < data.length; i++) {
+						data[i] = dataModel.getValueAt(row, i);
+						names[i] = dataModel.getColumnName(i);
+					}
+
+					request.commitSelection(new SearchSelectionImpl(names, data));
+				}
+			}
+		});
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
         add(jProgressBar1, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
 	private DefaultTableModel sampleModel() {
-		return new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        );
+		FindInput find = new FindInput();
+		List<Input> inputs = find.find(form);
+
+		String[] names = new String[inputs.size()];
+		for (int j = 0; j < names.length; j++) {
+			names[j] = inputs.get(j).getLabel();
+		}
+		
+		Object[][] data = new Object[50][inputs.size()];
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < names.length; j++) {
+				data[i][j] = i + j;
+				data[i][j] =i +  j;
+				data[i][j] =i +  j;
+				data[i][j] =i +  j;
+			}
+
+		}
+		
+		return new javax.swing.table.DefaultTableModel(data, names);
 	}
 
 	FindInput findInput = new FindInput();
@@ -229,5 +183,16 @@ public class UIListagem extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
 
     boolean opcoesVisible = false;
+
+	private JButton cancelButton;
+
+	private DefaultTableModel dataModel;
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(cancelButton == e.getSource()) {
+			selectionRequest.get().cancelSelection();
+		}
+	}
 
 }
