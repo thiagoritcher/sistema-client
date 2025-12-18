@@ -22,13 +22,16 @@ public class AppFrame extends javax.swing.JFrame {
 	private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AppFrame.class.getName());
 	private final Menu menu;
 	private final Content content;
+	
+	private final BottomPanel bottomPanel;
 
     /**
      * Creates new form AppFrame
      */
-    public AppFrame(Content content, Menu menu) {
+    public AppFrame(Content content, Menu menu, BottomPanel bottomPanel) {
     	this.content = content;
     	this.menu = menu;
+		this.bottomPanel = bottomPanel; 
         initComponents();
         setSize(800, 600);
     }
@@ -66,6 +69,9 @@ public class AppFrame extends javax.swing.JFrame {
         
         menu.create().stream().forEach(m -> menubar.add(m));
         setJMenuBar(menubar);
+       
+        add(bottomPanel, BorderLayout.SOUTH);
+        
        
         //pack();
     }// </editor-fold>                        

@@ -1,7 +1,10 @@
 package br.com.ritcher;
 
 import br.com.ritcher.ui.AppFrame;
+import br.com.ritcher.ui.BottomPanel;
 import br.com.ritcher.ui.Menu;
+import br.com.ritcher.ui.MessageLinkFocusHandler;
+import br.com.ritcher.ui.MessagesFrame;
 
 public class Client {
 
@@ -26,6 +29,13 @@ public class Client {
 		Content content = new Content(new PanelFactory(impl));
 
 		java.awt.EventQueue.invokeLater(() -> 
-			new AppFrame(content, new Menu(content)).setVisible(true));
+			{
+				MessageLinkFocusHandler linkFocusHandler = new MessageLinkFocusHandler(content);
+				AppFrame frame = new AppFrame(content, new Menu(content), new BottomPanel(new MessagesFrame(linkFocusHandler), linkFocusHandler));
+				frame.setVisible(true);
+				frame.toFront();
+				frame.requestFocus();
+				return;
+			});
 	}
 }

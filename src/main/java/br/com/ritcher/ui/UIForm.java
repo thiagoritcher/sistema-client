@@ -4,21 +4,28 @@
  */
 package br.com.ritcher.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import br.com.ritcher.impl.model.SearchItemImpl;
 import br.com.ritcher.model.Form;
@@ -40,13 +47,18 @@ public class UIForm extends javax.swing.JPanel {
 
     private Form form;
 	private SearchProvider provider;
+	
+	private Map<String, JComponent> componentById = new HashMap<String, JComponent>();
+	private final FormActionPanel actionPanel;
+	
 	/**
      * Creates new form NewJPanel1
      * @param form 
      */
-    public UIForm(Form form, SearchProvider provider) {
+    public UIForm(Form form, SearchProvider provider, FormActionPanel actionPanel) {
     	this.form = form;
 		this.provider = provider;
+		this.actionPanel = actionPanel;
         initComponents();
     }
 
@@ -60,8 +72,11 @@ public class UIForm extends javax.swing.JPanel {
     private void initComponents() {
         setLayout(new java.awt.GridBagLayout());
         
+    	GridBagConstraints gridBagConstraints;
+
+        
         List<FormItem> itens = form.getFormItems();
-        Integer y = -2;
+        Integer y = 0;
 
         Integer max = 0; 
         for (FormItem formItem : itens) {
@@ -69,6 +84,19 @@ public class UIForm extends javax.swing.JPanel {
 				max = Integer.max(max, this.countInputs((Line) formItem));
 			}
 		}
+        
+        
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.anchor = GridBagConstraints.WEST;
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridwidth = max;
+		
+        add(actionPanel, gridBagConstraints);
+        
         
         for (FormItem formItem : itens) {
         	y += 2;
@@ -81,7 +109,6 @@ public class UIForm extends javax.swing.JPanel {
 			}
 		}
 
-    	GridBagConstraints gridBagConstraints;
 		JLabel label = new JLabel();
 		label.setText("");
 		gridBagConstraints = new java.awt.GridBagConstraints();
@@ -97,6 +124,8 @@ public class UIForm extends javax.swing.JPanel {
     private int countInputs(Line formItem) {
     	return formItem.getInputs().size();
 	}
+    
+    Component first;
 
 	private void createInput(Input input, Container container,  Integer x, Integer y, Integer width) {
     	GridBagConstraints gridBagConstraints;
@@ -111,7 +140,15 @@ public class UIForm extends javax.swing.JPanel {
     	Integer labelX = x;
    
     	
-		Component textField = createComponent(input);
+		JComponent textField = createComponent(input);
+		componentById.put(input.getLabel(), textField);
+		textField.requestFocusInWindow();
+		
+		if(first == null) {
+			first = textField;
+			textField.requestFocusInWindow();
+		}
+		
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
 		gridBagConstraints.weightx = 1.0;
@@ -138,7 +175,7 @@ public class UIForm extends javax.swing.JPanel {
 	}
 
 
-	private Component createComponent(Input input) {
+	private JComponent createComponent(Input input) {
 		if(input instanceof TextLine) {
 			return new JTextField();
 		}
@@ -166,6 +203,30 @@ public class UIForm extends javax.swing.JPanel {
 		throw new IllegalArgumentException("Undefined input type" + input);
 	}
 
+	Color errorColor = new Color(255,102,102);
+	
+	public void focusPath(List<String> path) {
+		String id = path.get(0);
+		JComponent component = componentById.get(id);
+		if(component != null) {
+			component.requestFocusInWindow();
+			Color original = component.getBackground();
+			component.setBackground(errorColor);
+			component.setToolTipText("Validation error");
+			new Timer().schedule(new TimerTask() {
+				@Override
+				public void run() {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							component.setBackground(original);
+						}
+					});
+				}
+			}, 3000);
+		}
+	}
+
 	private void createLine(Line line, Container container, Integer y,  Integer width) {
         List<Input> itens = line.getInputs();
         int itemW = width / line.getInputs().size();
@@ -179,6 +240,19 @@ public class UIForm extends javax.swing.JPanel {
 				x += w;
 			}
 		}
+	}
+
+	public void load(List<String> path) {
+		String id = path.get(0);
+		//Implement data loading
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				if(path.size() > 1) {
+					focusPath(path.subList(1, path.size()));
+				}
+			}
+		});
 	}
 
 }
