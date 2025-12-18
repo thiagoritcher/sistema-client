@@ -25,13 +25,16 @@ public class Client {
 			ex.printStackTrace();
 		}
 
-		SearchProviderImpl impl = new SearchProviderImpl();
-		Content content = new Content(new PanelFactory(impl));
+		PanelFactory panelFactory = new PanelFactory();
+		Content content = new ContentImpl();
+
+		SearchProviderImpl impl = new SearchProviderImpl(panelFactory, content);
+
 
 		java.awt.EventQueue.invokeLater(() -> 
 			{
-				MessageLinkFocusHandler linkFocusHandler = new MessageLinkFocusHandler(content);
-				AppFrame frame = new AppFrame(content, new Menu(content), new BottomPanel(new MessagesFrame(linkFocusHandler), linkFocusHandler));
+				MessageLinkFocusHandler linkFocusHandler = new MessageLinkFocusHandler(content, panelFactory, impl);
+				AppFrame frame = new AppFrame(content, new Menu(content, panelFactory, impl), new BottomPanel(new MessagesFrame(linkFocusHandler), linkFocusHandler));
 				frame.setVisible(true);
 				frame.toFront();
 				frame.requestFocus();

@@ -7,23 +7,20 @@ import java.util.List;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 import br.com.ritcher.Content;
+import br.com.ritcher.PanelFactory;
+import br.com.ritcher.PanelType;
 
 public class Menu implements ActionListener {
 
 	private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AppFrame.class.getName());
-	private Content content;
 
-	public Menu(Content content) {
-		this.content = content;
-
+	public Menu(Content content, PanelFactory panelFactory, SearchProvider provider) {
     	addMenuListener(new MenuSelectionListener() {
 			@Override
 			public void selected(String id) {
-				content.add(id);
+				content.push(panelFactory.createPanel(id, PanelType.LIST, provider));
 			}
 		});
 	}
@@ -34,16 +31,8 @@ public class Menu implements ActionListener {
 		{
 			JMenu menu = new JMenu();
 			menu.setText("File");
-			menu.add(new JMenuItemBuilder().text("Listagem").listener(this).build());
-			menu.add(new JMenuItemBuilder().text("Form").listener(this).build());
-			result.add(menu);
-		}
-
-		{
-			JMenu menu = new JMenu();
-			menu.setText("Edit");
-			menu.add(new JMenuItemBuilder().text("Listagem").listener(this).build());
-			menu.add(new JMenuItemBuilder().text("Form").listener(this).build());
+			menu.add(new JMenuItemBuilder().text("usuario").listener(this).build());
+			menu.add(new JMenuItemBuilder().text("cidade").listener(this).build());
 			result.add(menu);
 		}
 		return result;

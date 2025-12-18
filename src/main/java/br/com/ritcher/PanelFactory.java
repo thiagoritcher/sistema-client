@@ -1,8 +1,8 @@
 package br.com.ritcher;
 
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.JPanel;
 
@@ -25,37 +25,46 @@ import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
 import br.com.ritcher.ui.FormActionPanel;
 import br.com.ritcher.ui.SearchProvider;
+import br.com.ritcher.ui.SearchSelectionRequest;
 import br.com.ritcher.ui.UIForm;
 import br.com.ritcher.ui.UIListagem;
 
 public class PanelFactory {
-
-	private SearchProvider provider;
-
-	public PanelFactory(SearchProvider provider) {
-		this.provider = provider;
-
-	}
-
-	public JPanel createPanel(List<String> path) {
-		UIListagem listagem;
+	public UI createPanel(List<String> path, PanelType type, SearchProvider provider) {
 		String id = path.get(0);
-		
-		if("Listagem".equals(id)) {
-			listagem =  new UIListagem(createForm(id), provider);
-			return listagem;
-		}
-
-		if("Form".equals(id)) {
-			UIForm form = new UIForm(createForm(id), provider, new FormActionPanel());
+		if(type == PanelType.FORM) {
+			UIForm form = new UIForm(usuario(id), provider, new FormActionPanel());
 			if(path.size() > 1) {
 				form.load(path.subList(1, path.size()));
 			}
 			return form;
 		}
-		
-		return new JPanel();
+		else if(type == PanelType.LIST) {
+			return new UIListagem(usuario(id), provider, Optional.empty());
+		}
+		else {
+			throw new IllegalArgumentException(type +" is undefined");
+		}
 	}
+
+	public UI createSearch(String id, SearchProviderImpl searchProviderImpl,
+			Optional<SearchSelectionRequest> selectionRequest) {
+		return new UIListagem(usuario(id), searchProviderImpl, selectionRequest);
+	}
+	
+	public UI createPanel(String id, PanelType type, SearchProvider provider) {
+		if(type == PanelType.FORM) {
+			return new UIForm(usuario(id), provider, new FormActionPanel());
+			
+		}
+		else if(type == PanelType.LIST) {
+			return new UIListagem(usuario(id), provider, Optional.empty());
+		}
+		else {
+			throw new IllegalArgumentException(type +" is undefined");
+		}
+	}
+
 
 	private TextLine input(String id) {
 		return TextLineImpl.builder().label(id).build();
@@ -85,8 +94,9 @@ public class PanelFactory {
 		return LineImpl.builder().inputs(inputs).build();
 	}
 	
-	private Form createForm(String id) {
-		Form f = FormImpl.builder()
+	private Form usuario(String id) {
+		if("usuario".equals(id)) {
+			return FormImpl.builder()
 				.formItem( 
 						line(List.of( 
 								input("nome"), intinput("idade"), selectin("tipo"),switchin("optante"))))
@@ -94,7 +104,15 @@ public class PanelFactory {
 					line(List.of(input("sobrenome"), input("apelido"), selectin("estado_civil"), searchin("cidade"))))
 				.formItem(datein("nascimento"))
 				.build();
-		return f;
+		}
+		if("cidade".equals(id)) {
+			return FormImpl.builder()
+				.formItem(input("nome"))
+				.formItem(selectin("estado"))
+				.build();	
+		}
+		
+		throw new IllegalArgumentException(id +" is undefined");
 	}
 
 }

@@ -21,6 +21,10 @@ public class SearchInput extends JPanel implements ActionListener {
 	private SearchSelection selection;
 	private SearchItem input;
 	private JTextField desc;
+	
+	public void setInput(SearchItem input) {
+		this.input = input;
+	}
 
 	public SearchInput(SearchItem input, SearchProvider provider) {
 		this.input = input;
