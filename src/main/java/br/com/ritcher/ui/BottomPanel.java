@@ -76,7 +76,7 @@ public class BottomPanel extends javax.swing.JPanel {
 		});
 		
 		
-		setMessage("<b color='red'>Erro</b> ao salvar <a href='http://Form/10/nome'>acessar</a>");
+		setMessage("<b color='red'>Erro</b> ao salvar <a href='http://usuario/10/nome'>acessar</a>");
 
 	}// </editor-fold>
 

@@ -20,6 +20,11 @@ public class MessageLinkFocusHandler {
 
 	public void handleLink(URL url) {
 		String[] parts = url.getPath().split("/");
-		content.push(panelFactory.createPanel(List.of(url.getHost(), parts[1], parts[2]), PanelType.LIST, searchProvider));
+		if(parts.length > 2) {
+			content.push(panelFactory.createPanel(List.of(url.getHost(), parts[1], parts[2]), PanelType.FORM, searchProvider));
+		}
+		else {
+			content.push(panelFactory.createPanel(List.of(url.getHost()), PanelType.LIST, searchProvider));
+		}
 	}
 }

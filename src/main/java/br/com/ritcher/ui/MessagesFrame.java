@@ -39,7 +39,9 @@ public class MessagesFrame extends javax.swing.JFrame {
 
         jEditorPane1.setEditable(false);
         jEditorPane1.setContentType("text/html"); // NOI18N
-        jEditorPane1.setText("<html>\n  <head>\n\n  </head>\n  <body>\n    <p>\n       Executando função de processamento de nota\n    </p>\n    <p>\n       <b color='red'>Problema de validação</b>, informação não disponível <a href=\"http://Form/10/nome \">acessar</a>\n    </p>\n  </body>\n</html>\n");
+        jEditorPane1.setText("<html>\n  <head>\n\n  </head>\n  <body>\n    <p>\n     "
+        		+ "  Executando função de processamento de nota\n    </p>\n    <p>\n    "
+        		+ "   <b color='red'>Problema de validação</b>, informação não disponível <a href=\"http://usuario \">acessar</a>\n    </p>\n  </body>\n</html>\n");
         jEditorPane1.addHyperlinkListener(new javax.swing.event.HyperlinkListener() {
             public void hyperlinkUpdate(javax.swing.event.HyperlinkEvent evt) {
                 jEditorPane1HyperlinkUpdate(evt);
