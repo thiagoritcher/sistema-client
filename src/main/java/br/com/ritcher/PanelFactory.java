@@ -27,7 +27,7 @@ import br.com.ritcher.ui.FormActionPanel;
 import br.com.ritcher.ui.SearchProvider;
 import br.com.ritcher.ui.SearchSelectionRequest;
 import br.com.ritcher.ui.UIForm;
-import br.com.ritcher.ui.UIListagem;
+import br.com.ritcher.ui.UIListing;
 
 public class PanelFactory {
 	public UI createPanel(List<String> path, PanelType type, SearchProvider provider) {
@@ -40,7 +40,7 @@ public class PanelFactory {
 			return form;
 		}
 		else if(type == PanelType.LIST) {
-			return new UIListagem(usuario(id), provider, Optional.empty());
+			return new UIListing(usuario(id), provider, Optional.empty());
 		}
 		else {
 			throw new IllegalArgumentException(type +" is undefined");
@@ -49,7 +49,7 @@ public class PanelFactory {
 
 	public UI createSearch(String id, SearchProviderImpl searchProviderImpl,
 			Optional<SearchSelectionRequest> selectionRequest) {
-		return new UIListagem(usuario(id), searchProviderImpl, selectionRequest);
+		return new UIListing(usuario(id), searchProviderImpl, selectionRequest);
 	}
 	
 	public UI createPanel(String id, PanelType type, SearchProvider provider) {
@@ -58,7 +58,7 @@ public class PanelFactory {
 			
 		}
 		else if(type == PanelType.LIST) {
-			return new UIListagem(usuario(id), provider, Optional.empty());
+			return new UIListing(usuario(id), provider, Optional.empty());
 		}
 		else {
 			throw new IllegalArgumentException(type +" is undefined");

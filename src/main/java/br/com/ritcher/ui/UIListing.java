@@ -25,7 +25,7 @@ import br.com.ritcher.ui.opcoes.OperationList;
  *
  * @author thiago
  */
-public class UIListagem extends javax.swing.JPanel implements ActionListener, UI {
+public class UIListing extends javax.swing.JPanel implements ActionListener, UI {
 
 
 	private Form form;
@@ -37,7 +37,7 @@ public class UIListagem extends javax.swing.JPanel implements ActionListener, UI
 	/**
      * Creates new form NewJPanel3
      */
-    public UIListagem(Form form, SearchProvider provider, Optional<SearchSelectionRequest> selectionRequest) {
+    public UIListing(Form form, SearchProvider provider, Optional<SearchSelectionRequest> selectionRequest) {
     	this.form = form;
 		this.provider = provider;
 		this.selectionRequest = selectionRequest;
