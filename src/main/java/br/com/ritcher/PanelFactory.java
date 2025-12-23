@@ -28,12 +28,16 @@ import br.com.ritcher.ui.SearchProvider;
 import br.com.ritcher.ui.SearchSelectionRequest;
 import br.com.ritcher.ui.UIForm;
 import br.com.ritcher.ui.UIListing;
+import br.com.ritcher.ui.UXConfig;
 
 public class PanelFactory {
+
 	public UI createPanel(List<String> path, PanelType type, SearchProvider provider) {
 		String id = path.get(0);
 		if(type == PanelType.FORM) {
-			UIForm form = new UIForm(usuario(id), provider, new FormActionPanel());
+
+			UIForm form = new UIForm(usuario(id), provider, new FormActionPanel(new UXConfig()));
+			
 			if(path.size() > 1) {
 				form.load(path.subList(1, path.size()));
 			}
@@ -54,7 +58,7 @@ public class PanelFactory {
 	
 	public UI createPanel(String id, PanelType type, SearchProvider provider) {
 		if(type == PanelType.FORM) {
-			return new UIForm(usuario(id), provider, new FormActionPanel());
+			return new UIForm(usuario(id), provider, new FormActionPanel(new UXConfig()));
 			
 		}
 		else if(type == PanelType.LIST) {

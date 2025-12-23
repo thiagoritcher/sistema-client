@@ -15,11 +15,13 @@ import javax.swing.JSeparator;
  */
 public class FormActionPanel extends javax.swing.JPanel {
 
-    /**
+    private final UXConfig uxconfig;
+	/**
      * Creates new form FormActionPanel
      */
-    public FormActionPanel() {
-        initComponents();
+    public FormActionPanel(UXConfig uxconfig) {
+        this.uxconfig = uxconfig;
+		initComponents();
     }
 
     /**
@@ -32,7 +34,8 @@ public class FormActionPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jButton1 = new javax.swing.JButton();
+        salvarButton = new javax.swing.JButton();
+        salvarButton.setBackground(uxconfig.getPrimaryActionCollor());
         jButton2 = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 32767));
         jButton4 = new javax.swing.JButton();
@@ -42,13 +45,13 @@ public class FormActionPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setText("Salvar");
+        salvarButton.setText("Salvar");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jButton1, gridBagConstraints);
+        add(salvarButton, gridBagConstraints);
 
         jButton2.setText("Excluir");
         add(jButton2, new java.awt.GridBagConstraints());
@@ -89,7 +92,7 @@ public class FormActionPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify                     
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton salvarButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
