@@ -9,6 +9,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import br.com.ritcher.Content;
 import br.com.ritcher.UI;
 import br.com.ritcher.impl.model.SearchItemImpl;
 import br.com.ritcher.model.Form;
@@ -44,7 +46,7 @@ import br.com.ritcher.model.input.TextLine;
  *
  * @author thiago
  */
-public class UIForm extends javax.swing.JPanel implements UI{
+public class UIForm extends javax.swing.JPanel implements UI, FormActionListener{
 
     private Form form;
 	private SearchProvider provider;
@@ -60,8 +62,19 @@ public class UIForm extends javax.swing.JPanel implements UI{
     	this.form = form;
 		this.provider = provider;
 		this.actionPanel = actionPanel;
+		actionPanel.initComponents(this);
         initComponents();
     }
+    
+    
+    
+    private Content getContent() {
+    	Component c = getParent();
+    	while(!(c instanceof Content)) {
+    		c = c.getParent();
+    	}
+    	return (Content) c;
+	}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -256,4 +269,18 @@ public class UIForm extends javax.swing.JPanel implements UI{
 		});
 	}
 
+	@Override
+	public void salvarAction(ActionEvent e) {
+		
+	}
+
+	@Override
+	public void cancelarAction(ActionEvent e) {
+		getContent().pop(this);
+	}
+
+	@Override
+	public void fecharAction(ActionEvent e) {
+		getContent().pop(this);
+	}
 }

@@ -6,22 +6,26 @@ package br.com.ritcher.ui;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 /**
  *
  * @author thiago
  */
-public class FormActionPanel extends javax.swing.JPanel {
+public class FormActionPanel extends javax.swing.JPanel implements ActionListener {
 
     private final UXConfig uxconfig;
+	private FormActionListener listener;
+
 	/**
      * Creates new form FormActionPanel
      */
     public FormActionPanel(UXConfig uxconfig) {
         this.uxconfig = uxconfig;
-		initComponents();
     }
 
     /**
@@ -31,17 +35,27 @@ public class FormActionPanel extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {
+    public void initComponents(FormActionListener listener) {
+    	this.listener = listener;
         java.awt.GridBagConstraints gridBagConstraints;
 
         salvarButton = new javax.swing.JButton();
         salvarButton.setBackground(uxconfig.getPrimaryActionCollor());
+        salvarButton.addActionListener(this);
+
+		cancelarButton = new JButton();
+        cancelarButton.addActionListener(this);
+        fecharButton = new JButton();
+        fecharButton.addActionListener(this);
+		
         jButton2 = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 32767));
         jButton4 = new javax.swing.JButton();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 0), new java.awt.Dimension(1, 32767));
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
+        
+        
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -54,7 +68,22 @@ public class FormActionPanel extends javax.swing.JPanel {
         add(salvarButton, gridBagConstraints);
 
         jButton2.setText("Excluir");
-        add(jButton2, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        add(jButton2, gridBagConstraints);
+       
+        cancelarButton.setText("Cancelar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        add(cancelarButton, gridBagConstraints);
+        
+        
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -86,6 +115,13 @@ public class FormActionPanel extends javax.swing.JPanel {
         add(new JSeparator(), gridBagConstraints);
         
         
+        fecharButton.setText("Fechar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        add(fecharButton, gridBagConstraints);
+        
     }// </editor-fold>                        
 
 
@@ -93,9 +129,29 @@ public class FormActionPanel extends javax.swing.JPanel {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JButton salvarButton;
+    private javax.swing.JButton cancelarButton;
+    private javax.swing.JButton fecharButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     // End of variables declaration                   
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == salvarButton) {
+			listener.salvarAction(e);
+			return;
+		}
+
+		if(e.getSource() == cancelarButton) {
+			listener.cancelarAction(e);
+			return;
+		}
+
+		if(e.getSource() == fecharButton) {
+			listener.fecharAction(e);
+			return;
+		}
+	}
 }

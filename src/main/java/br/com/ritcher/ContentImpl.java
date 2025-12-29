@@ -17,7 +17,7 @@ public class ContentImpl extends JPanel implements Content {
 		this.setLayout(cardLayout);
 	}
 
-	public void push(UI panel) {
+	public void push(UI panel, ContentData data) {
 		EventQueue.invokeLater(() -> {
 			add((Component) panel, 0);
 			cardLayout.first(this);
@@ -26,7 +26,7 @@ public class ContentImpl extends JPanel implements Content {
 		});
 	}
 
-	public void pop() {
+	public void pop(UI data) {
 		EventQueue.invokeLater(() -> {
 			remove(0);
 			cardLayout.first(this);

@@ -24,12 +24,12 @@ public class SearchProviderImpl implements SearchProvider {
 	public void startSearch(SearchItem input, ActionListener listener) {
 		System.out.println("Start search");
 		SearchSelectionRequest request = new SearchSelectionRequestImpl(content, listener);
-		content.push(panelFactory.createSearch(input.getLabel(), this, Optional.of(request)));
+		content.push(panelFactory.createSearch(input.getLabel(), this, Optional.of(request)), new ContentData(input.getLabel()));
 	}
 
 	@Override
 	public void startEdit(SearchItem input, SearchSelection selection, SearchInput searchInput) {
-		content.push(panelFactory.createPanel(input.getLabel(), PanelType.FORM, this));
+		content.push(panelFactory.createPanel(input.getLabel(), PanelType.FORM, this), new ContentData(input.getLabel()));
 	}
 
 

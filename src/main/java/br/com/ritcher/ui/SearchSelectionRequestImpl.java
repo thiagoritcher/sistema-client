@@ -17,12 +17,12 @@ public class SearchSelectionRequestImpl implements SearchSelectionRequest {
 
 	@Override
 	public void cancelSelection() {
-		content.pop();
+		content.pop(null);
 	}
 
 	@Override
 	public void commitSelection(SearchSelection searchSelection) {
-		content.pop();
+		content.pop(null);
 		listener.actionPerformed(new ActionEvent(searchSelection, 0, null));
 	}
 

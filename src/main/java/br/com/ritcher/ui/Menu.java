@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import br.com.ritcher.Content;
+import br.com.ritcher.ContentData;
 import br.com.ritcher.PanelFactory;
 import br.com.ritcher.PanelType;
 
@@ -20,7 +21,7 @@ public class Menu implements ActionListener {
     	addMenuListener(new MenuSelectionListener() {
 			@Override
 			public void selected(String id) {
-				content.push(panelFactory.createPanel(id, PanelType.LIST, provider));
+				content.push(panelFactory.createPanel(id, PanelType.LIST, provider), new ContentData(id));
 			}
 		});
 	}

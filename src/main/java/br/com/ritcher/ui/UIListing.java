@@ -4,6 +4,7 @@
  */
 package br.com.ritcher.ui;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -15,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.ritcher.Content;
 import br.com.ritcher.UI;
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
@@ -104,6 +106,17 @@ public class UIListing extends javax.swing.JPanel implements ActionListener, UI 
 			
 			cancelButton.addActionListener(this);        
 		}
+        else {
+        	fecharButton = new JButton();
+
+			gridBagConstraints = new java.awt.GridBagConstraints();
+			gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        	
+			fecharButton.setText("Fechar");
+			jPanel1.add(fecharButton, gridBagConstraints);
+			
+			fecharButton.addActionListener(this);        
+        }
         
 
 
@@ -186,6 +199,7 @@ public class UIListing extends javax.swing.JPanel implements ActionListener, UI 
     boolean opcoesVisible = false;
 
 	private JButton cancelButton;
+	private JButton fecharButton;
 
 	private DefaultTableModel dataModel;
 
@@ -194,6 +208,17 @@ public class UIListing extends javax.swing.JPanel implements ActionListener, UI 
 		if(cancelButton == e.getSource()) {
 			selectionRequest.get().cancelSelection();
 		}
+		else if(fecharButton == e.getSource()) {
+			getContent().pop(this);
+		}
+	}
+
+    private Content getContent() {
+    	Component c = getParent();
+    	while(!(c instanceof Content)) {
+    		c = c.getParent();
+    	}
+    	return (Content) c;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 
 import br.com.ritcher.Content;
+import br.com.ritcher.ContentData;
 import br.com.ritcher.PanelFactory;
 import br.com.ritcher.PanelType;
 
@@ -21,10 +22,12 @@ public class MessageLinkFocusHandler {
 	public void handleLink(URL url) {
 		String[] parts = url.getPath().split("/");
 		if(parts.length > 2) {
-			content.push(panelFactory.createPanel(List.of(url.getHost(), parts[1], parts[2]), PanelType.FORM, searchProvider));
+			content.push(panelFactory.createPanel(List.of(url.getHost(), parts[1], parts[2]), PanelType.FORM, searchProvider), 
+					new ContentData(url.getHost()));
 		}
 		else {
-			content.push(panelFactory.createPanel(List.of(url.getHost()), PanelType.LIST, searchProvider));
+			content.push(panelFactory.createPanel(List.of(url.getHost()), PanelType.LIST, searchProvider), 
+					new ContentData(url.getHost()));
 		}
 	}
 }

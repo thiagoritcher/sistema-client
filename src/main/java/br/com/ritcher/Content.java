@@ -2,8 +2,8 @@ package br.com.ritcher;
 
 public interface Content {
 
-	abstract void push(UI panel);
+	abstract void push(UI panel, ContentData data);
 
-	void pop();
+	void pop(UI panel);
 	
 }

@@ -59,7 +59,6 @@ public class PanelFactory {
 	public UI createPanel(String id, PanelType type, SearchProvider provider) {
 		if(type == PanelType.FORM) {
 			return new UIForm(usuario(id), provider, new FormActionPanel(new UXConfig()));
-			
 		}
 		else if(type == PanelType.LIST) {
 			return new UIListing(usuario(id), provider, Optional.empty());

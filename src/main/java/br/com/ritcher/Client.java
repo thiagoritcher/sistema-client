@@ -5,6 +5,7 @@ import br.com.ritcher.ui.BottomPanel;
 import br.com.ritcher.ui.Menu;
 import br.com.ritcher.ui.MessageLinkFocusHandler;
 import br.com.ritcher.ui.MessagesFrame;
+import br.com.ritcher.ui.SplitPane;
 
 public class Client {
 
@@ -26,7 +27,7 @@ public class Client {
 		}
 
 		PanelFactory panelFactory = new PanelFactory();
-		Content content = new ContentImpl();
+		Content content = new SplitPane();
 
 		SearchProviderImpl impl = new SearchProviderImpl(panelFactory, content);
 
