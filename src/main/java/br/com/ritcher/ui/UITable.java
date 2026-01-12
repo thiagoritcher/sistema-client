@@ -132,7 +132,7 @@ public class UITable extends javax.swing.JPanel {
 		jTable1.setModel(dataModel);
 		jScrollPane1.setViewportView(jTable1);
 
-		UICellEditorTextLine cellEditor = new UICellEditorTextLine(item, createComponent);
+		UICellEditorTextLine cellEditor = new UICellEditorTextLine(item, createComponent, uxConfig);
 		CustomCellRenderer cellRenderer = new CustomCellRenderer(item, createComponent, uxConfig);
 		
 		jTable1.setCellEditor(cellEditor);
@@ -140,6 +140,7 @@ public class UITable extends javax.swing.JPanel {
 			jTable1.getColumnModel().getColumn(i).setCellEditor(cellEditor);
 			jTable1.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
 		}
+		jTable1.setRowSelectionAllowed(true);
 
 		add(jScrollPane1, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>
@@ -199,14 +200,17 @@ public class UITable extends javax.swing.JPanel {
 		private int lastcolumn;
 
 		private JComponent currentEditor;
+
+		private UXConfig uxConfig;
 		
 		public List<JComponent> getEditors() {
 			return editors;
 		}
 
-		public UICellEditorTextLine(Table table, CreateComponent createComponent) {
+		public UICellEditorTextLine(Table table, CreateComponent createComponent, UXConfig uxConfig) {
 			this.table = table;
 			this.createComponent = createComponent;
+			this.uxConfig = uxConfig;
 			editors = table.getInputs().stream().map(i -> createComponent.create(i)).toList();
 		}
 
@@ -223,6 +227,7 @@ public class UITable extends javax.swing.JPanel {
 			currentEditor = editors.get(column);
 			createComponent.setValue(currentEditor, value);
 			table.setRowHeight(row, (int) currentEditor.getPreferredSize().getHeight() + 5);
+			currentEditor.setBackground(uxConfig.getPrimarySelection());
 			return currentEditor;
 		}
 	}
