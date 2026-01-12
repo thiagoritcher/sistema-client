@@ -41,12 +41,15 @@ public class UITable extends javax.swing.JPanel {
 
 	private CreateComponent createComponent;
 
+	private UXConfig uxConfig;
+
 	/**
 	 * Creates new form Table
 	 */
-	public UITable(Table item, CreateComponent createComponent) {
+	public UITable(Table item, CreateComponent createComponent, UXConfig uxConfig) {
 		this.item = item;
 		this.createComponent = createComponent;
+		this.uxConfig = uxConfig;
 		initComponents();
 	}
 
@@ -130,7 +133,7 @@ public class UITable extends javax.swing.JPanel {
 		jScrollPane1.setViewportView(jTable1);
 
 		UICellEditorTextLine cellEditor = new UICellEditorTextLine(item, createComponent);
-		CustomCellRenderer cellRenderer = new CustomCellRenderer(item, createComponent);
+		CustomCellRenderer cellRenderer = new CustomCellRenderer(item, createComponent, uxConfig);
 		
 		jTable1.setCellEditor(cellEditor);
 		for (int i = 0; i < item.getInputs().size(); i++) {
@@ -145,8 +148,10 @@ public class UITable extends javax.swing.JPanel {
 		private JTextField label;
 		private List<JComponent> editors;
 		private CreateComponent createComponent;
+		private UXConfig uxConfig;
 
-		public CustomCellRenderer(Table table, CreateComponent createComponent) {
+		public CustomCellRenderer(Table table, CreateComponent createComponent, UXConfig uxConfig) {
+			this.uxConfig = uxConfig;
 			editors = table.getInputs().stream().map(i -> createComponent.create(i)).toList();
 			this.createComponent = createComponent;
 			label = new JTextField();
@@ -157,7 +162,13 @@ public class UITable extends javax.swing.JPanel {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			
+		
+			if(isSelected) {
+				label.setBackground(uxConfig.getPrimarySelection());
+			}
+			else {
+				label.setBackground(Color.white);
+			}
 			if(value == null) {
 				label.setText("");
 			}

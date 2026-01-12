@@ -25,9 +25,11 @@ import br.com.ritcher.ui.search.SearchSelection;
 public class CreateComponent {
 	
 	private SearchProvider provider;
+	private UXConfig uxConfig;
 
-	public CreateComponent(SearchProvider provider) {
+	public CreateComponent(SearchProvider provider, UXConfig uxConfig) {
 		this.provider = provider;
+		this.uxConfig = uxConfig;
 	}
 
 	public JComponent create(FormItem input) {
@@ -56,7 +58,7 @@ public class CreateComponent {
 			return comp;
 		}
 		if(input instanceof Table) {
-			UITable comp = new UITable((Table) input, this);
+			UITable comp = new UITable((Table) input, this, uxConfig);
 			return comp;
 		}
 

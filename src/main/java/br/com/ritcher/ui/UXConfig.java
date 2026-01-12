@@ -7,6 +7,8 @@ public class UXConfig {
 	private Color primaryActionCollor = Color.green;
 	
 	private Color defaultErrorCollor = new Color(255, 102, 102);
+
+	private Color primarySelectionColor = new Color(220,220,220);
 	
 	
 	public Color getDefaultErrorCollor() {
@@ -15,6 +17,10 @@ public class UXConfig {
 
 	public Color getPrimaryActionCollor() {
 		return primaryActionCollor;
+	}
+
+	public Color getPrimarySelection() {
+		return primarySelectionColor;
 	}
 
 }

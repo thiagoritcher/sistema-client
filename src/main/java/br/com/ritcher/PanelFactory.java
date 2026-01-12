@@ -22,7 +22,7 @@ public class PanelFactory {
 
 			UXConfig uxconfig = new UXConfig();
 			FormActionPanel actionPanel = new FormActionPanel(uxconfig);
-			CreateComponent createComponent = new CreateComponent(provider);
+			CreateComponent createComponent = new CreateComponent(provider, uxconfig);
 
 			UIForm form = new UIForm(findForm(id), actionPanel, createComponent, uxconfig);
 			
