@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -69,9 +71,38 @@ public class SearchInput extends JPanel implements ActionListener {
 			updateSelection((SearchSelection) e.getSource());
 		}
 	}
+	
+	public SearchSelection getValue() {
+		return this.selection;
+	}
+	
+	public void setValue(SearchSelection o) {
+		this.selection = o;
+		if(o == null) {
+			desc.setText("");
+		}
+		else {
+			desc.setText(Integer.toString((int) this.selection.getData()[0]));
+		}
+	}
 
+	public String getText() {
+		if(this.selection == null) {
+			return "";
+		}
+		
+		return Integer.toString((int) this.selection.getData()[0]);
+	}
+
+	List<SearchSelectionListener> listeners = new ArrayList<SearchSelectionListener>();
+
+	void addSelectionListener(SearchSelectionListener listener){
+		listeners.add(listener);
+	}
+	
 	private void updateSelection(SearchSelection source) {
 		this.selection = source;
+		listeners.stream().forEach(l -> l.updateSelection(source));
 		desc.setText(source.getText());
 	}
 }

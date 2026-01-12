@@ -20,6 +20,7 @@ import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
 import br.com.ritcher.ui.search.SearchInput;
 import br.com.ritcher.ui.search.SearchProvider;
+import br.com.ritcher.ui.search.SearchSelection;
 
 public class CreateComponent {
 	
@@ -55,10 +56,55 @@ public class CreateComponent {
 			return comp;
 		}
 		if(input instanceof Table) {
-			UITable comp = new UITable((Table) input);
+			UITable comp = new UITable((Table) input, this);
 			return comp;
 		}
 
 		throw new IllegalArgumentException("Undefined input type" + input);
+	}
+
+	public Object getValue(JComponent currentEditor) {
+		if(currentEditor instanceof SearchInput) {
+			return ((SearchInput) currentEditor).getValue();
+		}
+		else if(currentEditor instanceof JCheckBox) {
+			return ((JCheckBox) currentEditor).isSelected();
+		}
+		else if(currentEditor instanceof JTextField) {
+			return ((JTextField) currentEditor).getText();
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	public void setValue(JComponent currentEditor, Object value) {
+		if(currentEditor instanceof SearchInput) {
+			((SearchInput) currentEditor).setValue((SearchSelection) value);
+		}
+		else if(currentEditor instanceof JCheckBox) {
+			((JCheckBox) currentEditor).setSelected(value == null ? false: (boolean) value);
+		}
+		else if(currentEditor instanceof JTextField) {
+			((JTextField) currentEditor).setText((String) value);
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	public String getText(JComponent currentEditor) {
+		if(currentEditor instanceof SearchInput) {
+			return ((SearchInput) currentEditor).getText();
+		}
+		if(currentEditor instanceof JCheckBox) {
+			return ((JCheckBox) currentEditor).isSelected() ? "yes": "no";
+		}
+		if(currentEditor instanceof JTextField) {
+			return ((JTextField) currentEditor).getText();
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 }

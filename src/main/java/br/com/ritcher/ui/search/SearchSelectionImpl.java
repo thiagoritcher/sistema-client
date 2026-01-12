@@ -14,5 +14,10 @@ public class SearchSelectionImpl implements SearchSelection {
 	public String getText() {
 		return data[0].toString();
 	}
+
+	@Override
+	public Object[] getData() {
+		return data;
+	}
 	
 }

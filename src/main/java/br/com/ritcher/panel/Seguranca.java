@@ -57,7 +57,11 @@ public class Seguranca extends PanelFactoryBase {
 					input("description")))
 			)
 			.formItem(
-				table(List.of(selectin("profile"))))
+				table(List.of(
+						searchin("profile"), 
+						switchin("active"), 
+						input("observation") 
+						)))
 			.build();
 	}
 
