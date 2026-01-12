@@ -4,7 +4,6 @@
  */
 package br.com.ritcher.ui;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +17,9 @@ import javax.swing.JSeparator;
  */
 public class FormActionPanel extends javax.swing.JPanel implements ActionListener {
 
-    private final UXConfig uxconfig;
+    private static final long serialVersionUID = 1L;
+
+	private final UXConfig uxconfig;
 	private FormActionListener listener;
 
 	/**

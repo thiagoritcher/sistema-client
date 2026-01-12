@@ -1,6 +1,7 @@
 package br.com.ritcher;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Optional;
 
 import br.com.ritcher.model.input.SearchItem;
@@ -29,7 +30,7 @@ public class SearchProviderImpl implements SearchProvider {
 
 	@Override
 	public void startEdit(SearchItem input, SearchSelection selection, SearchInput searchInput) {
-		content.push(panelFactory.createPanel(input.getLabel(), PanelType.FORM, this), new ContentData(input.getLabel()));
+		content.push(panelFactory.createPanel(List.of(input.getLabel()) , PanelType.FORM, this), new ContentData(input.getLabel()));
 	}
 
 
