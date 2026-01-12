@@ -4,10 +4,13 @@
  */
 package br.com.ritcher.ui;
 
+import java.awt.Component;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -16,6 +19,8 @@ import javax.swing.event.HyperlinkListener;
  * @author thiago
  */
 public class BottomPanel extends javax.swing.JPanel {
+
+	private static final long serialVersionUID = 1L;
 
 	private MessagesFrame messagesFrame;
 	private MessageLinkFocusHandler focusHandler;
@@ -71,6 +76,16 @@ public class BottomPanel extends javax.swing.JPanel {
 		jButton1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Component parent = getParent();
+				while(parent != null && !(parent instanceof JFrame)){
+					parent = parent.getParent();
+				}
+
+				if(parent != null) {
+					Rectangle bounds = parent.getBounds();
+					Rectangle bm = messagesFrame.getBounds();
+					messagesFrame.setLocation((int) (bounds.getCenterX() - bm.getWidth()/2), (int) (bounds.getCenterY() - bm.getHeight()/2));
+				}
 				messagesFrame.setVisible(true);
 			}
 		});
