@@ -34,7 +34,7 @@ public class Menu implements ActionListener {
 			JMenu menu = new JMenu();
 			menu.setText("File");
 			menu.add(new JMenuItemBuilder().text("usuario").listener(this).build());
-			menu.add(new JMenuItemBuilder().text("cidade").listener(this).build());
+			menu.add(new JMenuItemBuilder().text("profile").listener(this).build());
 			result.add(menu);
 		}
 		return result;

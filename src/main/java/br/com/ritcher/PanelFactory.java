@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.ritcher.model.Form;
+import br.com.ritcher.panel.Seguranca;
 import br.com.ritcher.ui.CreateComponent;
 import br.com.ritcher.ui.FormActionPanel;
 import br.com.ritcher.ui.UIForm;
@@ -45,7 +46,7 @@ public class PanelFactory {
 	}
 	
 	private Form findForm(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		Seguranca seguranca = new Seguranca();
+		return seguranca.create(id);
 	}
 }

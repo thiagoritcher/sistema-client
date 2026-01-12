@@ -4,11 +4,14 @@ import java.util.List;
 
 import br.com.ritcher.model.Input;
 import br.com.ritcher.model.Line;
+import br.com.ritcher.model.Table;
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-public class TableImpl implements Line {
+public class TableImpl implements Table {
 	List<Input> inputs;
+
+	String label;
 }
