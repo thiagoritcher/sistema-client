@@ -1,4 +1,4 @@
-package br.com.ritcher.ui;
+package br.com.ritcher.ui.search;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

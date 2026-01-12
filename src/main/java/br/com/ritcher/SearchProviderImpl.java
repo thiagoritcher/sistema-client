@@ -4,11 +4,11 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 
 import br.com.ritcher.model.input.SearchItem;
-import br.com.ritcher.ui.SearchInput;
-import br.com.ritcher.ui.SearchProvider;
-import br.com.ritcher.ui.SearchSelection;
-import br.com.ritcher.ui.SearchSelectionRequest;
-import br.com.ritcher.ui.SearchSelectionRequestImpl;
+import br.com.ritcher.ui.search.SearchInput;
+import br.com.ritcher.ui.search.SearchProvider;
+import br.com.ritcher.ui.search.SearchSelection;
+import br.com.ritcher.ui.search.SearchSelectionRequest;
+import br.com.ritcher.ui.search.SearchSelectionRequestImpl;
 
 public class SearchProviderImpl implements SearchProvider {
 	

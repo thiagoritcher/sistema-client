@@ -26,8 +26,8 @@ import br.com.ritcher.model.input.SelectItem;
 import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
 import br.com.ritcher.ui.FindInput;
-import br.com.ritcher.ui.SearchInput;
-import br.com.ritcher.ui.SearchProvider;
+import br.com.ritcher.ui.search.SearchInput;
+import br.com.ritcher.ui.search.SearchProvider;
 
 public class OpcoesPanel  implements ActionListener {
 

@@ -1,4 +1,4 @@
-package br.com.ritcher.ui;
+package br.com.ritcher.ui.search;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

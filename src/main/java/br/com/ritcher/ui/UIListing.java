@@ -22,6 +22,9 @@ import br.com.ritcher.model.Form;
 import br.com.ritcher.model.Input;
 import br.com.ritcher.ui.opcoes.OpcoesPanel;
 import br.com.ritcher.ui.opcoes.OperationList;
+import br.com.ritcher.ui.search.SearchProvider;
+import br.com.ritcher.ui.search.SearchSelectionImpl;
+import br.com.ritcher.ui.search.SearchSelectionRequest;
 
 /**
  *

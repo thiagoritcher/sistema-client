@@ -24,11 +24,11 @@ import br.com.ritcher.model.input.SelectItem;
 import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
 import br.com.ritcher.ui.FormActionPanel;
-import br.com.ritcher.ui.SearchProvider;
-import br.com.ritcher.ui.SearchSelectionRequest;
 import br.com.ritcher.ui.UIForm;
 import br.com.ritcher.ui.UIListing;
 import br.com.ritcher.ui.UXConfig;
+import br.com.ritcher.ui.search.SearchProvider;
+import br.com.ritcher.ui.search.SearchSelectionRequest;
 
 public class PanelFactory {
 
@@ -101,10 +101,17 @@ public class PanelFactory {
 		if("usuario".equals(id)) {
 			return FormImpl.builder()
 				.formItem( 
-						line(List.of( 
-								input("nome"), intinput("idade"), selectin("tipo"),switchin("optante"))))
+					line(List.of( 
+						input("nome"), 
+						intinput("idade"), 
+						selectin("tipo"),
+						switchin("optante"))))
 				.formItem(
-					line(List.of(input("sobrenome"), input("apelido"), selectin("estado_civil"), searchin("cidade"))))
+					line(List.of(
+						input("sobrenome"), 
+						input("apelido"), 
+						selectin("estado_civil"), 
+						searchin("cidade"))))
 				.formItem(datein("nascimento"))
 				.build();
 		}
@@ -117,5 +124,4 @@ public class PanelFactory {
 		
 		throw new IllegalArgumentException(id +" is undefined");
 	}
-
 }

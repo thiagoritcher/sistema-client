@@ -41,6 +41,8 @@ import br.com.ritcher.model.input.SearchItem;
 import br.com.ritcher.model.input.SelectItem;
 import br.com.ritcher.model.input.Switch;
 import br.com.ritcher.model.input.TextLine;
+import br.com.ritcher.ui.search.SearchInput;
+import br.com.ritcher.ui.search.SearchProvider;
 
 /**
  *

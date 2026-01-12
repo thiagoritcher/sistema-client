@@ -7,6 +7,7 @@ import br.com.ritcher.Content;
 import br.com.ritcher.ContentData;
 import br.com.ritcher.PanelFactory;
 import br.com.ritcher.PanelType;
+import br.com.ritcher.ui.search.SearchProvider;
 
 public class MessageLinkFocusHandler {
 	private Content content;
