@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
+import br.com.ritcher.model.FormItem;
 import br.com.ritcher.model.Input;
 import br.com.ritcher.model.Table;
 import br.com.ritcher.model.input.DateInput;
@@ -28,7 +29,7 @@ public class CreateComponent {
 		this.provider = provider;
 	}
 
-	public JComponent create(Input input) {
+	public JComponent create(FormItem input) {
 		if(input instanceof TextLine) {
 			return new JTextField();
 		}
@@ -50,7 +51,7 @@ public class CreateComponent {
 		}
 		if(input instanceof Switch) {
 			JCheckBox comp = new JCheckBox();
-			comp.setText(input.getLabel());
+			comp.setText(((Switch)input).getLabel());
 			return comp;
 		}
 		if(input instanceof Table) {

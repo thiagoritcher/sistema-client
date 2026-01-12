@@ -31,6 +31,7 @@ import javax.swing.SwingUtilities;
 import br.com.ritcher.Content;
 import br.com.ritcher.UI;
 import br.com.ritcher.impl.model.SearchItemImpl;
+import br.com.ritcher.model.Fill;
 import br.com.ritcher.model.Form;
 import br.com.ritcher.model.FormItem;
 import br.com.ritcher.model.Input;
@@ -122,6 +123,10 @@ public class UIForm extends javax.swing.JPanel implements UI, FormActionListener
 				this.createLine((Line) formItem, this, y, max);
 			}
 
+			if (formItem instanceof Fill) {
+				this.createFill((Fill) formItem, this, y, max);
+			}
+
 			if (formItem instanceof Input) {
 				this.createInput((Input) formItem, this, 0, y, max);
 			}
@@ -137,6 +142,22 @@ public class UIForm extends javax.swing.JPanel implements UI, FormActionListener
 		add(label, gridBagConstraints);
 
 	}// </editor-fold>//GEN-END:initComponents
+
+	private void createFill(Fill fill, Container container, Integer y, Integer width) {
+		JComponent component =  createComponent.create(fill);
+		
+		GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.gridy = y;
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridwidth = width;
+		gridBagConstraints.gridheight = GridBagConstraints.REMAINDER;
+		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+
+		container.add(component, gridBagConstraints);
+	}
 
 	private int countInputs(Line formItem) {
 		return formItem.getInputs().size();
@@ -171,6 +192,7 @@ public class UIForm extends javax.swing.JPanel implements UI, FormActionListener
 		gridBagConstraints.gridy = inputY;
 		gridBagConstraints.gridx = inputX;
 		gridBagConstraints.gridwidth = inputW;
+		//gridBagConstraints.gridheight = GridBagConstraints.REMAINDER;
 		gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
 		container.add(textField, gridBagConstraints);
 
